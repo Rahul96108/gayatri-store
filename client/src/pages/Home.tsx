@@ -1,5 +1,5 @@
-import { ShoppingCart, Search, Star } from 'lucide-react';
-
+import { Link } from 'react-router-dom'; // <--- THIS LINE IS MISSING
+import { ShoppingCart, Search } from 'lucide-react';
 export default function App() {
   return (
     <div className="min-h-screen">
