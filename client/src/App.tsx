@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Catalog from './pages/Catalog';
+import Catalog from './pages/Catalog'; // Must match filename exactly
 import ProductDetail from './pages/ProductDetail';
 
 export default function App() {
