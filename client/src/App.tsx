@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router-dom'
 import { ShoppingCart, Search, ArrowRight, ChevronLeft, Star, Instagram, Facebook, Phone, MapPin } from 'lucide-react';
 
 // --- 1. CONFIG & DATA ---
-const WHATSAPP_NUMBER = "9196108XXXXX"; // <-- REPLACE WITH YOUR ACTUAL NUMBER (with 91)
+const WHATSAPP_NUMBER = "919982620643"; // <-- REPLACE WITH YOUR ACTUAL NUMBER (with 91)
 
 const products = [
   { id: "ratlami-sev", name: "Special Ratlami Sev", price: "₹180", weight: "250g", category: "The Iconic Sev", image: "https://images.unsplash.com/photo-1601050638917-3f3095c2d5d7?w=800", desc: "Signature spicy sev with cloves and hand-pounded spices." },
@@ -35,7 +35,7 @@ const Footer = () => (
     <div className="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-white/10 pb-16">
       <div className="space-y-6">
         <h3 className="text-3xl font-black tracking-tighter text-[#D48C2B]">GAYATRI</h3>
-        <p className="opacity-70 leading-relaxed">Preserving the authentic taste of Indian Namkeen since generations. Handcrafted with love and pure ingredients.</p>
+        <p className="opacity-70 leading-relaxed">Preserving the authentic taste of Indian Namkeen. Handcrafted with love and pure ingredients.</p>
         <div className="flex gap-4">
           <Instagram className="cursor-pointer hover:text-[#D48C2B] transition-colors" />
           <Facebook className="cursor-pointer hover:text-[#D48C2B] transition-colors" />
@@ -53,8 +53,8 @@ const Footer = () => (
       <div>
         <h4 className="font-black italic text-xl mb-6 text-[#D48C2B]">Contact Us</h4>
         <ul className="space-y-4 opacity-70 font-medium">
-          <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 96108 XXXXX</li>
-          <li className="flex items-start gap-2"><MapPin className="w-8 h-8 md:w-4 md:h-4" /> Industrial Area, Phase II, Rajasthan</li>
+          <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 9982620643</li>
+          <li className="flex items-start gap-2"><MapPin className="w-8 h-8 md:w-4 md:h-4" /> Gandhi Nagar, Bhilwara, Rajasthan</li>
         </ul>
       </div>
       <div>
@@ -121,7 +121,7 @@ const ProductDetail = () => {
     if(!p) return;
     const orderId = Math.floor(1000 + Math.random() * 9000); // Simple Order ID
     const text = `*New Order: #${orderId}*%0A------------------%0A*Snack:* ${p.name}%0A*Price:* ${p.price}%0A*Weight:* ${p.weight}%0A------------------%0APlease confirm availability!`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+    window.open(`https://wa.me/${919982620643}?text=${text}`, '_blank');
   };
 
   if (!p) return <div className="p-20 text-center text-[#8B2312] font-black italic text-3xl">SNACK NOT FOUND</div>;
