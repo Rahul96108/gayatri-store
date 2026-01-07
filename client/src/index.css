@@ -1,15 +1,12 @@
 @import "tailwindcss";
 
-@theme {
-  --color-brand-red: #8B2312;      /* Deep brick red for text */
-  --color-brand-accent: #D48C2B;   /* Gold/Yellow for highlights */
-  --color-brand-bg: #F5F1E6;       /* Warm cream background */
-  --color-brand-dark: #2D1A12;     /* Dark brown for headings */
+/* Ensure the background is our brand cream color, not black */
+:root {
+  background-color: #F5F1E6; 
 }
 
-@layer base {
-  body {
-    @apply bg-brand-bg text-brand-dark antialiased;
-    font-family: 'serif'; /* Consider importing a font like 'Arvo' or 'Lora' */
-  }
+body {
+  margin: 0;
+  background-color: #F5F1E6;
+  color: #2D1A12;
 }
