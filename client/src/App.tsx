@@ -33,7 +33,7 @@ const Footer = () => (
     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
       <div>
         <h3 className="text-2xl font-black text-[#D48C2B] mb-4">GAYATRI</h3>
-        <p className="opacity-60">Authentic Rajasthani Namkeen since 1985.</p>
+        <p className="opacity-60">Authentic Rajasthani Namkeen.</p>
       </div>
       <div>
         <h4 className="font-bold mb-4">Quick Links</h4>
@@ -43,8 +43,7 @@ const Footer = () => (
         </ul>
       </div>
       <div>
-        <h4 className="font-bold mb-4">Follow Us</h4>
-        <div className="flex justify-center md:justify-start gap-4"><Instagram /><Facebook /></div>
+        <div className="flex justify-center md:justify-start gap-4"><Email /></div>
       </div>
     </div>
   </footer>
