@@ -1,3 +1,17 @@
+const Navbar = ({ cartCount }: { cartCount: number }) => (
+  <nav className="sticky top-0 z-50 bg-[#F5F1E6]/95 backdrop-blur-xl border-b border-[#8B2312]/5 px-6 md:px-10 py-5">
+    <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <Link to="/" className="flex items-center gap-3">
+        {/* Add the logo image here */}
+        <img src="/favicon.png" alt="Gayatri Logo" className="w-10 h-10 rounded-full border-2 border-[#8B2312]" />
+        <span className="text-2xl font-black tracking-tighter text-[#8B2312]">GAYATRI</span>
+      </Link>
+      ...
+    </div>
+  </nav>
+);
+
+
 const Checkout = ({ cart, removeFromCart }: { cart: any[], removeFromCart: any }) => {
   const [form, setForm] = useState({ 
     name: '', phone: '', email: '', address: '', pincode: '', state: '' 
