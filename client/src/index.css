@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
-/* If you want to keep your brand colors from before */
 @theme {
-  --color-brand-red: #BE3127;
-  --color-brand-yellow: #FFC837;
-  --color-brand-cream: #FCF9F2;
+  --color-brand-red: #8B2312;      /* Deep brick red for text */
+  --color-brand-accent: #D48C2B;   /* Gold/Yellow for highlights */
+  --color-brand-bg: #F5F1E6;       /* Warm cream background */
+  --color-brand-dark: #2D1A12;     /* Dark brown for headings */
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-dark antialiased;
+    font-family: 'serif'; /* Consider importing a font like 'Arvo' or 'Lora' */
+  }
 }
