@@ -19,7 +19,10 @@ const products = [
 
 const Navbar = () => (
   <nav className="sticky top-0 z-50 bg-[#F5F1E6]/95 backdrop-blur-md border-b border-[#8B2312]/10 flex justify-between items-center px-6 md:px-10 py-4 max-w-7xl mx-auto">
-    <Link to="/" className="text-2xl md:text-3xl font-black tracking-tighter text-[#8B2312]">GAYATRI</Link>
+   <div className="flex flex-col">
+     <Link to="/" className="text-2xl md:text-3xl font-black tracking-tighter text-[#8B2312]">GAYATRI</Link>
+     <span className="text-xs font-bold tracking-[0.35em] text-[#D48C2B] mt-1 opacity-90">NAMKEEN</span>
+      </div>
     <div className="hidden md:flex gap-8 font-bold text-[#2D1A12]">
       <Link to="/catalog" className="hover:text-[#8B2312]">Collections</Link>
       <a href="#" className="hover:text-[#8B2312]">Process</a>
