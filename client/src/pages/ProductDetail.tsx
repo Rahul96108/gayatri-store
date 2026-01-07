@@ -1,3 +1,7 @@
+import { useParams, Link } from 'react-router-dom';
+import { products } from '../data/products';
+import { ChevronLeft, ShoppingCart } from 'lucide-react';
+
 export default function ProductDetail() {
   const { id } = useParams();
   const product = products.find(p => p.id === id);
