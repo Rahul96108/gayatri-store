@@ -21,12 +21,7 @@ export default function App() {
 
       {/* Hero Section */}
 
-      <Link 
-  to="/catalog" 
-  className="bg-brand-red text-white px-8 py-4 rounded-full text-xl font-bold italic shadow-xl hover:bg-brand-dark transition-all inline-block"
->
-  Shop The Classics
-</Link>
+      <Link to="/catalog" className="bg-brand-red text-white px-8 py-4 rounded-full text-xl font-bold italic shadow-xl hover:bg-brand-dark transition-all inline-block">Shop The Classics</Link>
       <section className="max-w-7xl mx-auto px-10 py-12 flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1 space-y-6">
           <h1 className="text-7xl font-black italic leading-tight text-brand-red">
