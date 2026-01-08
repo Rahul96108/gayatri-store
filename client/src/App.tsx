@@ -138,10 +138,17 @@ export default function Storefront() {
   };
 
   if (view === 'checkout') return <CheckoutPage cart={cart} cartTotal={cartTotal} onBack={() => setView('home')} onComplete={handleFinalCheckout} />;
-  if (view === 'catalog') return <CatalogView onBack={() => setView('home')} addToCart={addToCart} />;
-
+  if (view === 'catalog') {
   return (
-    <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans">
+    <CatalogView 
+      onBack={() => setView('home')} 
+      addToCart={addToCart} 
+      cartCount={cart.reduce((a, b) => a + b.qty, 0)}
+      openCart={() => setIsCartOpen(true)}
+    />
+  );
+}
+  /* return (<div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans"> */
       {/* --- CART OVERLAY --- */}
       <div className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-2xl z-[100] transform transition-transform duration-500 border-l-4 border-[#D48C2B] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="h-full flex flex-col p-8">
