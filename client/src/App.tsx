@@ -102,14 +102,20 @@ export default function Storefront() {
     productsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // RENDER LOGIC
-  if (view === 'checkout') {
-    return <CheckoutPage cart={cart} cartTotal={cartTotal} onBack={() => setView('home')} onComplete={handleFinalCheckout} />;
-  }
+ // RENDER LOGIC
+if (view === 'checkout') {
+  return <CheckoutPage cart={cart} cartTotal={cartTotal} onBack={() => setView('home')} onComplete={handleFinalCheckout} />;
+}
 
-  return (
-    <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans selection:bg-[#D48C2B]">
-      
+// --- ADD THIS BLOCK ---
+if (view === 'catalog') {
+  return <CatalogView onBack={() => setView('home')} addToCart={addToCart} />;
+}
+// ----------------------
+
+return (
+  <div className="min-h-screen ...">
+    {/* rest of your homepage code */}
       {/* --- CART OVERLAY --- */}
       <div className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-2xl z-[100] transform transition-transform duration-500 ease-in-out border-l-4 border-[#D48C2B] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="h-full flex flex-col p-8">
@@ -259,3 +265,63 @@ export default function Storefront() {
     </div>
   );
 }
+const CatalogView = ({ onBack, addToCart }: any) => {
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    async function fetchAll() {
+      const { data } = await supabase.from('products').select('*').order('name');
+      if (data) setAllProducts(data);
+      setLoading(false);
+    }
+    fetchAll();
+  }, []);
+
+  const filtered = allProducts.filter(p => 
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="min-h-screen bg-[#F5F1E6] pt-32 pb-20 px-6 text-left animate-in slide-in-from-bottom-4 duration-700">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+          <div className="space-y-4">
+            <button onClick={onBack} className="text-[#8B2312] font-black italic uppercase text-xs flex items-center gap-2 hover:gap-4 transition-all">
+              ← Back to Home
+            </button>
+            <h2 className="text-6xl font-black italic uppercase text-[#8B2312] tracking-tighter leading-none">The Full <br/> <span className="text-[#D48C2B]">Catalog</span></h2>
+          </div>
+          
+          <input 
+            type="text" 
+            placeholder="SEARCH SNACKS..." 
+            className="w-full md:w-80 bg-white border-2 border-[#2D1A12] p-4 rounded-2xl outline-none focus:border-[#D48C2B] font-bold uppercase text-xs tracking-widest"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center py-40"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {filtered.map((p) => (
+              <div key={p.id} className="bg-white border-2 border-[#2D1A12] p-6 rounded-[2.5rem] flex flex-col hover:shadow-xl transition-all">
+                <img src={p.image} className="w-full h-48 object-cover rounded-3xl mb-4" alt="" />
+                <h4 className="text-xl font-black italic uppercase text-[#8B2312] mb-1">{p.name}</h4>
+                <p className="text-[#D48C2B] font-bold mb-4">₹{p.price}</p>
+                <button 
+                  onClick={() => addToCart(p)}
+                  className="mt-auto bg-[#8B2312] text-white py-3 rounded-full font-black italic uppercase text-[10px] tracking-widest hover:bg-[#2D1A12] transition-colors"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
