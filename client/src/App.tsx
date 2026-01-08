@@ -107,11 +107,12 @@ export default function Storefront() {
             ))}
           </div>
         )}
-        {/* --- BRANDED FOOTER SECTION --- */}
-<footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B]">
-  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+
     
     {/* Column 1: Brand Story */}
+                {/* --- BRANDED FOOTER SECTION --- */}
+<footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B]">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
     <div className="space-y-8">
       <div className="flex items-center gap-3">
         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-2 shadow-inner">
@@ -146,15 +147,15 @@ export default function Storefront() {
       <div className="space-y-5 text-[10px] font-black uppercase tracking-widest opacity-50">
         <p className="flex items-center gap-3 leading-relaxed">
           <MapPin className="w-5 h-5 text-[#D48C2B] shrink-0" />
-          Indore - Rajasthan Highway, <br/> Main Market, Rajasthan
+          <br/> Gandhi Nagar , Bhilwara, Rajasthan
         </p>
         <p className="flex items-center gap-3">
           <Phone className="w-5 h-5 text-[#D48C2B] shrink-0" />
-          +91 96108 XXXXX
+          +91 9982620643
         </p>
         <p className="flex items-center gap-3 hover:text-[#D48C2B] transition-colors cursor-pointer">
           <Mail className="w-5 h-5 text-[#D48C2B] shrink-0" />
-          hello@gayatrisnacks.com
+          gayatrifoods@gmail.com
         </p>
       </div>
     </div>
