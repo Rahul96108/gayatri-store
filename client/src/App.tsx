@@ -5,6 +5,16 @@ import {
   Phone, User, CheckCircle, Instagram, Facebook, Quote, Mail
 } from 'lucide-react';
 
+// Inside client/App.tsx
+useEffect(() => {
+  const fetchLiveProducts = async () => {
+    const { data } = await supabase.from('products').select('*');
+    if (data) setProductsList(data);
+  };
+  fetchLiveProducts();
+}, []);
+
+
 // --- CONFIG & DATA ---
 const WHATSAPP_NUMBER = "9196108XXXXX"; // Replace with your actual number
 
