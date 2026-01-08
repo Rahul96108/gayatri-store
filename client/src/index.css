@@ -1,14 +1,18 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Gayatri Brand Colors - v4 Custom Properties */
-@theme {
-  --color-brand-cream: #F5F1E6;
-  --color-brand-crimson: #8B2312;
-  --color-brand-gold: #D48C2B;
-  --color-brand-chocolate: #2D1A12;
+/* Gayatri Brand Colors */
+:root {
+  --brand-cream: #F5F1E6;
+  --brand-crimson: #8B2312;
+  --brand-gold: #D48C2B;
+  --brand-chocolate: #2D1A12;
 }
 
 body {
-  @apply bg-brand-cream text-brand-chocolate antialiased;
-  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--brand-cream);
+  color: var(--brand-chocolate);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
