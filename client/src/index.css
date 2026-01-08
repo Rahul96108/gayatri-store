@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
-/* Ensure the background is our brand cream color, not black */
-:root {
-  background-color: #F5F1E6; 
+/* Gayatri Brand Colors - v4 Custom Properties */
+@theme {
+  --color-brand-cream: #F5F1E6;
+  --color-brand-crimson: #8B2312;
+  --color-brand-gold: #D48C2B;
+  --color-brand-chocolate: #2D1A12;
 }
 
 body {
-  margin: 0;
-  background-color: #F5F1E6;
-  color: #2D1A12;
+  @apply bg-brand-cream text-brand-chocolate antialiased;
+  font-family: 'Inter', system-ui, sans-serif;
 }
