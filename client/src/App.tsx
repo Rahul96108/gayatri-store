@@ -110,10 +110,6 @@ export default function Storefront() {
 
     
     {/* Column 1: Brand Story */}
-                {/* --- BRANDED FOOTER SECTION --- */}
-<footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B]">
-  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
-    <div className="space-y-8">
       <div className="flex items-center gap-3">
         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-2 shadow-inner">
           <span className="text-[#8B2312] font-black text-xs uppercase">Gaya</span>
