@@ -107,7 +107,14 @@ export default function Storefront() {
             ))}
           </div>
         )}
-
+ {/* Dynamic Catalog Redirect Section */}
+        <div className="mt-20 flex flex-col items-center">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-6">Explore more flavors in our catalog</p>
+            <button className="flex items-center gap-4 bg-[#2D1A12] text-white px-12 py-6 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group">
+                Full Catalog <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+            </button>
+        </div>
+      </main>
     
     {/* Column 1: Brand Story */}
       <div className="flex items-center gap-3">
@@ -188,14 +195,7 @@ export default function Storefront() {
   </div>
 </footer>
 
-        {/* Dynamic Catalog Redirect Section */}
-        <div className="mt-20 flex flex-col items-center">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-6">Explore more flavors in our catalog</p>
-            <button className="flex items-center gap-4 bg-[#2D1A12] text-white px-12 py-6 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group">
-                Full Catalog <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
-            </button>
-        </div>
-      </main>
+       
 
       <footer className="bg-[#2D1A12] text-white/40 py-12 text-center text-[10px] font-bold uppercase tracking-[0.5em]">
         Gayatri Store • Authenticity in every crunch
