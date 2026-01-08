@@ -190,3 +190,57 @@ export default function Storefront() {
               </div>
               <h4 className="text-3xl font-black italic uppercase tracking-tighter text-[#D48C2B]">GAYATRI</h4>
             </div>
+            <p className="text-sm font-medium opacity-60 leading-relaxed italic">
+              Handcrafting the finest Indori & Rajasthani namkeen since 1994. Small batches, pure groundnut oil.
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            <h5 className="text-lg font-black italic uppercase tracking-widest text-white">Explore</h5>
+            <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest opacity-50">
+              <li className="hover:text-[#D48C2B] transition-colors cursor-pointer">Full Catalog</li>
+              <li className="hover:text-[#D48C2B] transition-colors cursor-pointer">Signature Items</li>
+              <li className="hover:text-[#D48C2B] transition-colors cursor-pointer">Bulk Orders</li>
+            </ul>
+          </div>
+
+          <div className="space-y-8">
+            <h5 className="text-lg font-black italic uppercase tracking-widest text-white">Visit Us</h5>
+            <div className="space-y-5 text-[10px] font-black uppercase tracking-widest opacity-50">
+              <p className="flex items-center gap-3 leading-relaxed">
+                <MapPin className="w-5 h-5 text-[#D48C2B] shrink-0" />
+                Gandhi Nagar, Bhilwara, Rajasthan
+              </p>
+              <p className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-[#D48C2B] shrink-0" />
+                +91 9982620643
+              </p>
+              <p className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-[#D48C2B] shrink-0" />
+                gayatrifoods@gmail.com
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <h5 className="text-lg font-black italic uppercase tracking-widest text-white">Follow The Crunch</h5>
+            <div className="flex gap-4 text-white">
+              <Instagram className="w-5 h-5 hover:text-[#D48C2B] cursor-pointer" />
+              <Facebook className="w-5 h-5 hover:text-[#D48C2B] cursor-pointer" />
+            </div>
+            <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] leading-tight opacity-40">
+                Pan-India Shipping available. Freshness guaranteed.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-30 text-[10px] font-black uppercase tracking-[0.5em]">
+          <p>© 2026 GAYATRI STORE. ALL RIGHTS RESERVED.</p>
+          <p>FSSAI: 1234567890</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
