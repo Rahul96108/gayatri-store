@@ -107,6 +107,89 @@ export default function Storefront() {
             ))}
           </div>
         )}
+        {/* --- BRANDED FOOTER SECTION --- */}
+<footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B]">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+    
+    {/* Column 1: Brand Story */}
+    <div className="space-y-8">
+      <div className="flex items-center gap-3">
+        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-2 shadow-inner">
+          <span className="text-[#8B2312] font-black text-xs uppercase">Gaya</span>
+        </div>
+        <h4 className="text-3xl font-black italic uppercase tracking-tighter text-[#D48C2B]">GAYATRI</h4>
+      </div>
+      <p className="text-sm font-medium opacity-60 leading-relaxed italic">
+        Handcrafting the finest Indori & Rajasthani namkeen since 1994. Small batches, pure groundnut oil, and zero compromises on authentic taste.
+      </p>
+    </div>
+
+    {/* Column 2: Quick Navigation */}
+    <div className="space-y-8">
+      <h5 className="text-lg font-black italic uppercase tracking-widest text-white">Explore</h5>
+      <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest opacity-50">
+        <li className="hover:text-[#D48C2B] transition-colors cursor-pointer flex items-center gap-2 group">
+          <div className="w-1 h-1 bg-[#D48C2B] rounded-full group-hover:w-3 transition-all"></div> Full Catalog
+        </li>
+        <li className="hover:text-[#D48C2B] transition-colors cursor-pointer flex items-center gap-2 group">
+          <div className="w-1 h-1 bg-[#D48C2B] rounded-full group-hover:w-3 transition-all"></div> Signature Items
+        </li>
+        <li className="hover:text-[#D48C2B] transition-colors cursor-pointer flex items-center gap-2 group">
+          <div className="w-1 h-1 bg-[#D48C2B] rounded-full group-hover:w-3 transition-all"></div> Bulk Orders
+        </li>
+      </ul>
+    </div>
+
+    {/* Column 3: Contact Info */}
+    <div className="space-y-8">
+      <h5 className="text-lg font-black italic uppercase tracking-widest text-white">Visit Us</h5>
+      <div className="space-y-5 text-[10px] font-black uppercase tracking-widest opacity-50">
+        <p className="flex items-center gap-3 leading-relaxed">
+          <MapPin className="w-5 h-5 text-[#D48C2B] shrink-0" />
+          Indore - Rajasthan Highway, <br/> Main Market, Rajasthan
+        </p>
+        <p className="flex items-center gap-3">
+          <Phone className="w-5 h-5 text-[#D48C2B] shrink-0" />
+          +91 96108 XXXXX
+        </p>
+        <p className="flex items-center gap-3 hover:text-[#D48C2B] transition-colors cursor-pointer">
+          <Mail className="w-5 h-5 text-[#D48C2B] shrink-0" />
+          hello@gayatrisnacks.com
+        </p>
+      </div>
+    </div>
+
+    {/* Column 4: Socials & Trust */}
+    <div className="space-y-8">
+      <h5 className="text-lg font-black italic uppercase tracking-widest text-white">Follow The Crunch</h5>
+      <div className="flex gap-4">
+        <div className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center hover:bg-[#D48C2B] hover:text-[#2D1A12] transition-all cursor-pointer group shadow-xl">
+          <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+        </div>
+        <div className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center hover:bg-[#D48C2B] hover:text-[#2D1A12] transition-all cursor-pointer group shadow-xl">
+          <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform" />
+        </div>
+      </div>
+      <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+        <p className="text-[9px] font-bold uppercase tracking-[0.2em] leading-tight">
+          Pan-India Shipping available. <br/> Freshness guaranteed for 90 days.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Bottom Bar */}
+  <div className="max-w-7xl mx-auto mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+    <p className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30">
+      © 2026 GAYATRI STORE. ALL RIGHTS RESERVED.
+    </p>
+    <div className="flex gap-8 text-[9px] font-black uppercase tracking-widest opacity-20">
+      <span className="hover:opacity-100 cursor-pointer">Privacy</span>
+      <span className="hover:opacity-100 cursor-pointer">Terms</span>
+      <span className="hover:opacity-100 cursor-pointer">FSSAI: 1234567890</span>
+    </div>
+  </div>
+</footer>
 
         {/* Dynamic Catalog Redirect Section */}
         <div className="mt-20 flex flex-col items-center">
