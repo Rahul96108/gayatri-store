@@ -161,6 +161,16 @@ export default function Storefront() {
           </div>
         )}
       </main>
+      {/* --- FULL CATALOG REDIRECT BUTTON --- */}
+        <div className="mt-20 flex flex-col items-center border-t border-[#2D1A12]/5 pt-20">
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-8 text-center">
+              Discover our complete range of Rajasthani & Indori flavors
+            </p>
+      <button onClick={() => { setView('catalog'); window.scrollTo(0,0); }} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group active:scale-95">
+            View Full Catalog 
+        <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+        </button>
+            </div>
 
       {/* --- FOOTER --- */}
       <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B]">
