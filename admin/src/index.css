@@ -2,8 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Gayatri Brand Configuration */
+:root {
+  --brand-cream: #F5F1E6;
+  --brand-crimson: #8B2312;
+  --brand-gold: #D48C2B;
+  --brand-chocolate: #2D1A12;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F5F1E6] text-[#2D1A12] antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  /* Custom Scrollbar for a premium feel */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--brand-cream);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--brand-crimson);
+    border-radius: 5px;
+  }
+
+  /* Input styling to match the "Dark Chocolate" theme of the form */
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Selection color */
+  ::selection {
+    background-color: var(--brand-gold);
+    color: white;
+  }
+}
+
+/* Animation for the "Live Feed" */
+.animate-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
