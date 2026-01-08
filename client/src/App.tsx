@@ -3,6 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 import { ShoppingCart, ArrowRight, Loader2 } from 'lucide-react';
 import './index.css';
 
+import { 
+  ShoppingCart, ArrowRight, Loader2, MapPin, 
+  Phone, Mail, Instagram, Facebook 
+} from 'lucide-react';
+
 const supabase = createClient(
   'https://iuwxqmpiogsgstzyanor.supabase.co', 
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1d3hxbXBpb2dzZ3N0enlhbm9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NDI5NTYsImV4cCI6MjA4MzQxODk1Nn0.IPmYcd8nh3BygAbTrVnP69qeQ15SY1M76ghqrxaENjA'
