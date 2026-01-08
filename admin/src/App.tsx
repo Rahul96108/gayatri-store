@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { ShoppingBag, Package, Plus, Trash2, CheckCircle, Phone, MapPin, Loader2 } from 'lucide-react';
 
 // Initialize Supabase (Get these from your Supabase Settings > API)
-const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');
+// const supabase = createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_ANON_KEY');
 // admin/src/App.tsx
 // const supabase = createClient(
 //   'https://iuwxqmpiogsgstzyanor.supabase.co', 
