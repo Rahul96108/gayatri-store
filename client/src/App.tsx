@@ -10,6 +10,8 @@ const supabase = createClient(
   'https://iuwxqmpiogsgstzyanor.supabase.co', 
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1d3hxbXBpb2dzZ3N0enlhbm9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NDI5NTYsImV4cCI6MjA4MzQxODk1Nn0.IPmYcd8nh3BygAbTrVnP69qeQ15SY1M76ghqrxaENjA'
 );
+import Catalog from './Catalog'; 
+
 
 // --- COMPONENT: DEDICATED CHECKOUT PAGE ---
 const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
@@ -101,7 +103,10 @@ export default function Storefront() {
   const scrollToProducts = () => {
     productsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
+// Inside your Storefront component
+if (view === 'catalog') {
+  return <Catalog onBack={() => setView('home')} addToCart={addToCart} />;
+}
  // RENDER LOGIC
 if (view === 'checkout') {
   return <CheckoutPage cart={cart} cartTotal={cartTotal} onBack={() => setView('home')} onComplete={handleFinalCheckout} />;
@@ -214,15 +219,16 @@ return (
         )}
 
         {/* --- FULL CATALOG REDIRECT BUTTON --- */}
-        <div className="mt-20 flex flex-col items-center border-t border-[#2D1A12]/5 pt-20">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-8 text-center uppercase">
-            Discover our complete range of Rajasthani & Indori flavors
-          </p>
-          <button onClick={() => { setView('catalog'); window.scrollTo(0,0); }} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group active:scale-95">
-            View Full Catalog <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
-          </button>
-        </div>
-      </main>
+        {/* --- FULL CATALOG REDIRECT BUTTON --- */}
+<div className="mt-20 flex flex-col items-center border-t border-[#2D1A12]/5 pt-20">
+  <button 
+    onClick={() => { setView('catalog'); window.scrollTo(0,0); }} 
+    className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group active:scale-95"
+  >
+    View Full Catalog 
+    <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+  </button>
+</div>
 
       {/* --- FOOTER --- */}
       <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left">
