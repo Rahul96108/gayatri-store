@@ -211,6 +211,7 @@ export default function Storefront() {
         </div>
       </div>
 
+      {/*  header  */}
       {view === 'home' && (
         <div className="animate-in fade-in duration-700">
           <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
@@ -223,8 +224,16 @@ export default function Storefront() {
                 <h2 className="text-6xl md:text-8xl lg:text-[110px] font-black italic uppercase text-[#8B2312] leading-[0.85] tracking-tighter">CRUNCH <br/> <span className="text-[#D48C2B]">BEYOND</span> <br/> WORDS.</h2>
                 <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg">SHOP THE COLLECTION</button>
               </div>
-              <div className="lg:w-1/2 flex justify-end">
+              {/* <div className="lg:w-1/2 flex justify-end">
                 <div className="w-[450px] h-[450px] rounded-full border-[15px] border-white shadow-2xl overflow-hidden"><img src="https://images.unsplash.com/photo-1601050638917-3f04807b93dc?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover" /></div>
+              </div>
+            </div> */}
+              
+          <div className="lg:w-1/2 flex justify-center lg:justify-end">
+          <div className="w-72 h-72 md:w-[450px] md:h-[450px] rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 group z-10">
+          <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=800&auto=format&fit=crop" 
+              alt="Golden bowl of crunchy namkeen mix" 
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
               </div>
             </div>
           </header>
