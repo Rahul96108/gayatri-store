@@ -11,11 +11,56 @@ const supabase = createClient(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1d3hxbXBpb2dzZ3N0enlhbm9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NDI5NTYsImV4cCI6MjA4MzQxODk1Nn0.IPmYcd8nh3BygAbTrVnP69qeQ15SY1M76ghqrxaENjA'
 );
 
+// --- COMPONENT: DEDICATED CHECKOUT PAGE ---
+const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
+  const [address, setAddress] = useState({ name: '', phone: '', line: '', pin: '' });
+
+  return (
+    <div className="min-h-screen bg-[#F5F1E6] pt-32 pb-20 px-6 animate-in fade-in duration-500 text-left">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="space-y-10">
+          <button onClick={onBack} className="text-[#8B2312] font-black italic uppercase text-xs flex items-center gap-2 hover:gap-4 transition-all">
+            ← Back to Shop
+          </button>
+          <h2 className="text-5xl font-black italic uppercase text-[#8B2312] tracking-tighter leading-none">Shipping <br/> Details</h2>
+          <div className="space-y-4">
+            <input placeholder="Full Name" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, name: e.target.value})} />
+            <input placeholder="Phone Number" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, phone: e.target.value})} />
+            <textarea placeholder="Complete Delivery Address" rows={4} className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, line: e.target.value})} />
+            <input placeholder="Pincode" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, pin: e.target.value})} />
+          </div>
+        </div>
+
+        <div className="bg-[#2D1A12] text-white p-10 rounded-[3.5rem] h-fit shadow-2xl sticky top-32">
+          <h3 className="text-[#D48C2B] font-black italic text-2xl uppercase mb-8 border-b border-white/10 pb-4">Order Summary</h3>
+          <div className="space-y-4 mb-8 max-h-60 overflow-y-auto pr-2">
+            {cart.map((item: any) => (
+              <div key={item.id} className="flex justify-between text-sm font-bold uppercase italic opacity-80">
+                <span>{item.name} (x{item.qty})</span>
+                <span>₹{item.price * item.qty}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between text-3xl font-black italic uppercase text-[#D48C2B] border-t border-white/10 pt-6">
+            <span>Total</span>
+            <span>₹{cartTotal}</span>
+          </div>
+          <button onClick={() => onComplete(address)} className="w-full bg-[#D48C2B] text-[#2D1A12] py-6 rounded-full font-black italic uppercase mt-10 hover:bg-white transition-all shadow-xl text-lg active:scale-95">
+            Finalize Order
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- MAIN STOREFRONT COMPONENT ---
 export default function Storefront() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [view, setView] = useState<'home' | 'catalog' | 'checkout'>('home');
   const productsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,11 +68,7 @@ export default function Storefront() {
       try {
         const { data } = await supabase.from('products').select('*').limit(6);
         if (data) setProducts(data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
+      } catch (e) { console.error(e); } finally { setLoading(false); }
     }
     getProducts();
   }, []);
@@ -51,15 +92,20 @@ export default function Storefront() {
 
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-  const checkoutViaWhatsApp = () => {
-    const message = cart.map(item => `*${item.name}* (x${item.qty}) - ₹${item.price * item.qty}`).join('%0A');
-    const total = `%0A%0A*Total Order Value: ₹${cartTotal}*`;
-    window.open(`https://wa.me/919982620643?text=Hello Gayatri Store! I want to order:%0A${message}${total}`, '_blank');
+  const handleFinalCheckout = (address: any) => {
+    const itemDetails = cart.map(item => `${item.name} (x${item.qty})`).join('%0A');
+    const message = `*Order from Website*%0A%0A*Items:*%0A${itemDetails}%0A%0A*Total:* ₹${cartTotal}%0A%0A*Delivery To:*%0A${address.name}%0A${address.phone}%0A${address.line}%0A${address.pin}`;
+    window.open(`https://wa.me/919982620643?text=${message}`, '_blank');
   };
 
   const scrollToProducts = () => {
     productsRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // RENDER LOGIC
+  if (view === 'checkout') {
+    return <CheckoutPage cart={cart} cartTotal={cartTotal} onBack={() => setView('home')} onComplete={handleFinalCheckout} />;
+  }
 
   return (
     <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans selection:bg-[#D48C2B]">
@@ -76,11 +122,11 @@ export default function Storefront() {
               <p className="text-center py-20 opacity-30 font-bold uppercase tracking-widest italic">Bag is empty</p>
             ) : (
               cart.map(item => (
-                <div key={item.id} className="flex gap-4 items-center border-b border-gray-100 pb-4">
+                <div key={item.id} className="flex gap-4 items-center border-b border-gray-100 pb-4 text-left">
                   <img src={item.image} className="w-16 h-16 rounded-xl object-cover" alt="" />
                   <div className="flex-grow">
-                    <h4 className="font-black italic uppercase text-[#8B2312] text-sm">{item.name}</h4>
-                    <p className="text-[#D48C2B] font-bold text-xs">₹{item.price * item.qty}</p>
+                    <h4 className="font-black italic uppercase text-[#8B2312] text-sm leading-none">{item.name}</h4>
+                    <p className="text-[#D48C2B] font-bold text-xs mt-1">₹{item.price * item.qty}</p>
                     <div className="flex items-center gap-3 mt-2">
                       <button onClick={() => updateQty(item.id, -1)} className="p-1 bg-gray-100 rounded-md"><Minus size={10}/></button>
                       <span className="font-bold text-xs">{item.qty}</span>
@@ -97,8 +143,8 @@ export default function Storefront() {
                 <span>Total</span>
                 <span>₹{cartTotal}</span>
               </div>
-              <button onClick={checkoutViaWhatsApp} className="w-full bg-[#8B2312] text-white py-5 rounded-full font-black italic uppercase flex items-center justify-center gap-3">
-                Order via WhatsApp <Send className="w-4 h-4" />
+              <button onClick={() => { setIsCartOpen(false); setView('checkout'); }} className="w-full bg-[#8B2312] text-white py-5 rounded-full font-black italic uppercase flex items-center justify-center gap-3">
+                Proceed to Checkout <ArrowRight size={18} />
               </button>
             </div>
           )}
@@ -106,7 +152,7 @@ export default function Storefront() {
       </div>
 
       {/* --- HERO SECTION --- */}
-      <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden">
+      <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
         <nav className="absolute top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-20">
           <div className="flex items-center gap-3">
              <div className="w-10 h-10 rounded-full border border-[#8B2312]/20 flex items-center justify-center bg-white p-1">
@@ -140,7 +186,7 @@ export default function Storefront() {
       </header>
 
       {/* --- PRODUCT GRID --- */}
-      <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24">
+      <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left">
         <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter">Core <span className="text-[#D48C2B]">Favorites</span></h3>
         {loading ? (
           <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div>
@@ -163,22 +209,17 @@ export default function Storefront() {
 
         {/* --- FULL CATALOG REDIRECT BUTTON --- */}
         <div className="mt-20 flex flex-col items-center border-t border-[#2D1A12]/5 pt-20">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-8 text-center">
-              Discover our complete range of Rajasthani & Indori flavors
-            </p>
-      <button onClick={() => { setView('catalog'); window.scrollTo(0,0); }} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group active:scale-95">
-            View Full Catalog 
-        <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
-        </button>
-            </div>
-
-
-        
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-8 text-center uppercase">
+            Discover our complete range of Rajasthani & Indori flavors
+          </p>
+          <button onClick={() => { setView('catalog'); window.scrollTo(0,0); }} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all shadow-2xl group active:scale-95">
+            View Full Catalog <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" />
+          </button>
+        </div>
       </main>
-      
 
       {/* --- FOOTER --- */}
-      <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B]">
+      <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
           <div className="space-y-8">
             <div className="flex items-center gap-3">
@@ -199,8 +240,8 @@ export default function Storefront() {
           <div className="space-y-8">
             <h5 className="text-lg font-black italic uppercase text-white">Visit Us</h5>
             <div className="text-[10px] font-black uppercase opacity-50 space-y-4">
-              <p className="flex items-center gap-3"><MapPin size={16}/> Gandhi Nagar, Bhilwara</p>
-              <p className="flex items-center gap-3"><Phone size={16}/> +91 9982620643</p>
+              <p className="flex items-center gap-3 font-bold uppercase"><MapPin size={16}/> Gandhi Nagar, Bhilwara</p>
+              <p className="flex items-center gap-3 font-bold uppercase"><Phone size={16}/> +91 9982620643</p>
             </div>
           </div>
           <div className="space-y-8">
