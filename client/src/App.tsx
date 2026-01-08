@@ -173,34 +173,38 @@ export default function Storefront() {
 
   // --- THE MISSING FUNCTION: SAVES TO DATABASE & OPENS WHATSAPP ---
   const handleFinalCheckout = async (addr: any, orderId: string) => {
-    const itemDetails = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
+  const itemDetails = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
 
-    // 1. Send data to Supabase 'orders' table
-    const { error } = await supabase.from('orders').insert([{
-      order_id: orderId,
-      customer_name: addr.name,
-      customer_email: addr.email,
-      customer_phone: addr.phone,
-      address_line: addr.line,
-      pincode: addr.pin,
-      items: itemDetails,
-      total: Number(cartTotal), // Ensure numeric type matches your SQL
-      status: 'pending'
-    }]);
+  // Attempt to save to the database
+  const { error } = await supabase.from('orders').insert([{
+    order_id: orderId,
+    customer_name: addr.name || 'N/A',
+    customer_email: addr.email || 'N/A',
+    customer_phone: addr.phone || 'N/A',
+    address_line: addr.line || 'N/A',
+    pincode: addr.pin || 'N/A',
+    items: itemDetails,
+    total: Number(cartTotal), // Explicitly convert to number for SQL 'numeric' type
+    status: 'pending'
+  }]);
 
-    if (error) {
-      console.error("Database Save Error:", error);
-      // Detailed error alert for debugging
-      alert(`Database Error: ${error.message}. Checking WhatsApp backup...`);
-    }
+  // If there is an error, show it so we can fix it
+  if (error) {
+    console.error("Full Supabase Error:", error);
+    alert(`DATABASE ERROR: ${error.message} \n\nCheck if your table column names match exactly.`);
+    return false; // Stop here if the DB save fails
+  }
 
-    // 2. Open WhatsApp regardless (so you don't lose the sale)
-    const msg = `*NEW ORDER: ${orderId}*%0A%0A*Items:* ${itemDetails}%0A%0A*Total:* ₹${cartTotal}%0A%0A*Deliver to:* ${addr.name}%0A*Address:* ${addr.line}, ${addr.pin}`;
-    window.open(`https://wa.me/919982620643?text=${msg}`, '_blank');
-    
-    return true; // Tells CheckoutPage to show the success screen
-  };
+  // If DB save is successful, proceed to WhatsApp
+  const msg = `*GAYATRI STORE - ORDER ${orderId}*%0A` +
+              `*Items:* ${itemDetails}%0A` +
+              `*Total:* ₹${cartTotal}%0A` +
+              `*Deliver to:* ${addr.name}, ${addr.phone}`;
 
+  window.open(`https://wa.me/919982620643?text=${msg}`, '_blank');
+  
+  return true; // Triggers Success Screen
+};
   const navigateToHome = () => {
     setIsCartOpen(false); 
     setView('home');
