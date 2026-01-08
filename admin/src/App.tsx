@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { ShoppingBag, Package, Trash2, Phone, MapPin, Loader2, Plus, LogOut } from 'lucide-react';
-
+import './index.css';
 // --- 1. CONFIGURATION (Single Declaration) ---
 const supabase = createClient(
   'https://iuwxqmpiogsgstzyanor.supabase.co', 
