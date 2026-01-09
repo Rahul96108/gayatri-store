@@ -30,7 +30,7 @@ const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
 
   if (isOrdered) {
     return (
-      <div className="min-h-screen bg-[#F5F1E6] flex items-center justify-center p-6 text-left">
+      <div className="min-h-screen bg-[#F5F1E6] flex items-center justify-center p-6 text-left animate-in zoom-in duration-500">
         <div className="bg-white border-4 border-[#8B2312] p-12 rounded-[3.5rem] max-w-2xl w-full shadow-2xl">
           <CheckCircle className="text-[#D48C2B] w-20 h-20 mb-8" />
           <h2 className="text-5xl font-black italic uppercase text-[#8B2312] mb-4">Confirmed!</h2>
@@ -42,17 +42,17 @@ const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E6] pt-32 pb-20 px-6 text-left">
+    <div className="min-h-screen bg-[#F5F1E6] pt-32 pb-20 px-6 text-left animate-in fade-in duration-500">
       <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
         <div className="space-y-10">
           <button onClick={onBack} className="text-[#8B2312] font-black italic uppercase text-xs">← Back to Shop</button>
           <h2 className="text-5xl font-black italic uppercase text-[#8B2312] leading-none tracking-tighter">Checkout</h2>
           <div className="space-y-4">
-            <input placeholder="Full Name" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none" onChange={e => setAddress({...address, name: e.target.value})} />
-            <input placeholder="Phone" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none" onChange={e => setAddress({...address, phone: e.target.value})} />
-            <input placeholder="Email" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none" onChange={e => setAddress({...address, email: e.target.value})} />
-            <textarea placeholder="Delivery Address" rows={3} className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none" onChange={e => setAddress({...address, line: e.target.value})} />
-            <input placeholder="Pincode" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none" onChange={e => setAddress({...address, pin: e.target.value})} />
+            <input placeholder="Full Name" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, name: e.target.value})} />
+            <input placeholder="Phone" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, phone: e.target.value})} />
+            <input placeholder="Email" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, email: e.target.value})} />
+            <textarea placeholder="Delivery Address" rows={3} className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, line: e.target.value})} />
+            <input placeholder="Pincode" className="w-full bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none focus:border-[#D48C2B]" onChange={e => setAddress({...address, pin: e.target.value})} />
           </div>
         </div>
         <div className="bg-[#2D1A12] text-white p-10 rounded-[3.5rem] shadow-2xl h-fit">
@@ -95,7 +95,7 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
   const filtered = allProducts.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left">
+    <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
       <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-[60] bg-[#F5F1E6]/80 backdrop-blur-md">
         <div className="flex items-center gap-3 cursor-pointer" onClick={onBack}>
            <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
@@ -233,11 +233,13 @@ export default function Storefront() {
                 <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg shadow-xl hover:bg-[#2D1A12] transition-all">SHOP NOW</button>
               </div>
               <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
-                {/* --- SEV BOWL HERO IMAGE --- */}
-                <div className="w-72 h-72 md:w-[450px] md:h-[450px] rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
+                {/* --- FIXED HERO IMAGE SECTION --- */}
+                {/* Added flex-shrink-0 to prevent squashing into an oval */}
+                <div className="w-72 h-72 md:w-[450px] md:h-[450px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1623689048105-a17b1e1936b8?q=80&w=800&auto=format&fit=crop" 
-                    alt="Sev bowl with onions and chili" 
+                    /* Updated URL to a clear, high-quality thin yellow sev image */
+                    src="https://images.unsplash.com/photo-1601050638917-3f04807b93dc?q=80&w=800&auto=format&fit=crop" 
+                    alt="Bowl of thin yellow sev namkeen" 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   />
                 </div>
