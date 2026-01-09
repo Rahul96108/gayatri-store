@@ -93,13 +93,13 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
-      <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-[#F5F1E6]/90 backdrop-blur-xl">
-        <span onClick={onBack} className="font-black text-xl tracking-tighter text-[#8B2312] uppercase cursor-pointer">GAYATRI</span>
-        <button onClick={openCart} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
-            <ShoppingCart className="w-5 h-5" />
-            <span className="text-[10px] font-bold">{cartCount}</span>
-        </button>
-      </nav>
+<nav className="absolute top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-transparent">
+   <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
+   <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
+      <ShoppingCart className="w-5 h-5" />
+      <span className="text-[10px] font-bold">{cartCount}</span>
+   </button>
+</nav>
       
       <div className="max-w-7xl mx-auto relative z-20">
         <h2 className="text-7xl md:text-8xl font-black italic uppercase text-[#8B2312] mb-12 tracking-tighter leading-none">The <br/> Catalog</h2>
@@ -134,18 +134,18 @@ export default function Storefront() {
   // --- FAVICON SYNC LOGIC ---
   useEffect(() => {
     const syncFavicon = async () => {
-      // 1. Get public URL from 'fevicon' bucket
+      //  Get public URL from 'fevicon' bucket
       const { data } = supabase.storage.from('fevicon').getPublicUrl('fevicon.png');
 
       if (data?.publicUrl) {
-        // 2. Locate or create favicon link tag
+        //  Locate or create favicon link tag
         let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
         if (!link) {
           link = document.createElement('link');
           link.rel = 'icon';
           document.head.appendChild(link);
         }
-        // 3. Apply Supabase storage URL
+        //  Apply Supabase storage URL
         link.href = data.publicUrl;
       }
     };
