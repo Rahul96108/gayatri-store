@@ -93,14 +93,17 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
-      <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-[60] bg-[#F5F1E6]/80 backdrop-blur-md">
+      {/* NAVBAR: Lowered z-index to z-10 so scrolling content passes OVER it */}
+      <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-[#F5F1E6]/90 backdrop-blur-xl">
         <span onClick={onBack} className="font-black text-xl tracking-tighter text-[#8B2312] uppercase cursor-pointer">GAYATRI</span>
         <button onClick={openCart} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
             <ShoppingCart className="w-5 h-5" />
             <span className="text-[10px] font-bold">{cartCount}</span>
         </button>
       </nav>
-      <div className="max-w-7xl mx-auto">
+      
+      {/* CONTENT: High z-index to overlap the navbar */}
+      <div className="max-w-7xl mx-auto relative z-20">
         <h2 className="text-7xl md:text-8xl font-black italic uppercase text-[#8B2312] mb-12 tracking-tighter leading-none">The <br/> Catalog</h2>
         {loading ? <div className="flex justify-center py-40"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -182,7 +185,7 @@ export default function Storefront() {
   return (
     <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans selection:bg-[#D48C2B]">
       
-      {/* CART OVERLAY */}
+      {/* CART OVERLAY: Stays on top of everything */}
       <div className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-2xl z-[100] transform transition-transform duration-500 border-l-4 border-[#D48C2B] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="h-full flex flex-col p-8">
           <div className="flex justify-between items-center mb-10 text-[#8B2312] font-black italic uppercase text-3xl">
@@ -213,26 +216,25 @@ export default function Storefront() {
         </div>
       </div>
 
+      {/* VIEW ROUTER */}
       {view === 'home' && (
         <div className="animate-in fade-in duration-700">
           <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
-            <nav className="absolute top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-20">
+            <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-[#F5F1E6]/90 backdrop-blur-xl">
                <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
-               <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2 hover:scale-110 transition-transform">
+               <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
                   <ShoppingCart className="w-5 h-5" />
                   <span className="text-[10px] font-bold">{cartCount}</span>
                </button>
             </nav>
-            <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12">
+            <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12 relative z-20 mt-20">
               <div className="lg:w-1/2 space-y-8 text-left">
                 <h2 className="text-6xl md:text-8xl lg:text-[110px] font-black italic uppercase text-[#8B2312] leading-[0.85] tracking-tighter">CRUNCH <br/> <span className="text-[#D48C2B]">BEYOND</span> <br/> WORDS.</h2>
                 <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg shadow-xl hover:bg-[#2D1A12] transition-all">SHOP NOW</button>
               </div>
-              <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
-                {/* --- FIXED HERO IMAGE SECTION --- */}
-                {/* 1. Dotted outline div is definitively REMOVED. */}
-                {/* 2. Size increased massively to w-[400px] on mobile and w-[700px] on desktop. */}
-                <div className="w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
+              <div className="lg:w-1/2 flex justify-center lg:justify-end">
+                {/* --- MASSIVE HERO IMAGE --- */}
+                <div className="w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 group">
                   <img 
                     src="/assets/hero.png" 
                     alt="Bowl of crunchy namkeen" 
@@ -242,8 +244,9 @@ export default function Storefront() {
               </div>
             </div>
           </header>
-          <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left">
-            <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter text-left">Favorites</h3>
+          
+          <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left relative z-20">
+            <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter">Favorites</h3>
             {loading ? <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 {products.map((p) => (
@@ -262,7 +265,8 @@ export default function Storefront() {
               <button onClick={() => setView('catalog')} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all group">View Full Catalog <ArrowRight className="group-hover:translate-x-3 transition-transform" /></button>
             </div>
           </main>
-          <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left">
+          
+          <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left relative z-30">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
               <div className="space-y-8">
                   <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI</h4>
