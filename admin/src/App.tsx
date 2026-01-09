@@ -46,6 +46,30 @@ export default function AdminPanel() {
     if (activeTab === 'inventory') fetchProducts();
   }, [activeTab]);
 
+    // --- FAVICON SYNC LOGIC ---
+  useEffect(() => {
+    const syncFavicon = async () => {
+      // 1. Get public URL from 'fevicon' bucket
+      const { data } = supabase.storage.from('fevicon').getPublicUrl('fevicon.png');
+
+      if (data?.publicUrl) {
+        // 2. Locate or create favicon link tag
+        let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'icon';
+          document.head.appendChild(link);
+        }
+        // 3. Apply Supabase storage URL
+        link.href = data.publicUrl;
+      }
+    };
+    syncFavicon();
+  }, []);
+
+
+
+  
   // --- INVENTORY LOGIC ---
   async function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     try {
