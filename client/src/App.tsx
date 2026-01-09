@@ -238,7 +238,7 @@ export default function Storefront() {
                 <div className="w-72 h-72 md:w-[450px] md:h-[450px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
                   <img 
                     /* Updated URL to a clear, high-quality thin yellow sev image */
-                    src="public/assets/hero.png" 
+                    src="assets/hero.png" 
                     alt="Bowl of thin yellow sev namkeen" 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   />
