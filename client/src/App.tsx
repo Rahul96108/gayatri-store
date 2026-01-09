@@ -93,7 +93,6 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
-      {/* NAVBAR: Lowered z-index to z-10 so scrolling content passes OVER it */}
       <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-[#F5F1E6]/90 backdrop-blur-xl">
         <span onClick={onBack} className="font-black text-xl tracking-tighter text-[#8B2312] uppercase cursor-pointer">GAYATRI</span>
         <button onClick={openCart} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
@@ -102,7 +101,6 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
         </button>
       </nav>
       
-      {/* CONTENT: High z-index to overlap the navbar */}
       <div className="max-w-7xl mx-auto relative z-20">
         <h2 className="text-7xl md:text-8xl font-black italic uppercase text-[#8B2312] mb-12 tracking-tighter leading-none">The <br/> Catalog</h2>
         {loading ? <div className="flex justify-center py-40"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
@@ -132,33 +130,28 @@ export default function Storefront() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [view, setView] = useState<'home' | 'catalog' | 'checkout'>('home');
   const productsRef = useRef<HTMLDivElement>(null);
-  
-  
+
+  // --- FAVICON SYNC LOGIC ---
   useEffect(() => {
-  const syncFavicon = async () => {
-    // 1. Get the public URL of your icon from the 'fevicon' bucket
-    const { data } = supabase
-      .storage
-      .from('fevicon')
-      .getPublicUrl('fevicon.png'); // Replace with your actual file name
+    const syncFavicon = async () => {
+      // 1. Get public URL from 'fevicon' bucket
+      const { data } = supabase.storage.from('fevicon').getPublicUrl('fevicon.png');
 
-    if (data?.publicUrl) {
-      // 2. Find the existing favicon tag or create a new one
-      let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
-       if (!link) {
-        link = document.createElement('link');
-        link.rel = 'icon';
-        document.head.appendChild(link);
+      if (data?.publicUrl) {
+        // 2. Locate or create favicon link tag
+        let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'icon';
+          document.head.appendChild(link);
+        }
+        // 3. Apply Supabase storage URL
+        link.href = data.publicUrl;
       }
-      // 3. Update the href to the Supabase URL
-      link.href = data.publicUrl;
-    }
-  };
+    };
+    syncFavicon();
+  }, []);
 
-  syncFavicon();
-}, []);
-
-  
   useEffect(() => {
     async function getProducts() {
       try {
@@ -211,7 +204,6 @@ export default function Storefront() {
   return (
     <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans selection:bg-[#D48C2B]">
       
-      {/* CART OVERLAY: Stays on top of everything */}
       <div className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-2xl z-[100] transform transition-transform duration-500 border-l-4 border-[#D48C2B] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="h-full flex flex-col p-8">
           <div className="flex justify-between items-center mb-10 text-[#8B2312] font-black italic uppercase text-3xl">
@@ -242,7 +234,6 @@ export default function Storefront() {
         </div>
       </div>
 
-      {/* VIEW ROUTER */}
       {view === 'home' && (
         <div className="animate-in fade-in duration-700">
           <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
@@ -259,7 +250,6 @@ export default function Storefront() {
                 <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg shadow-xl hover:bg-[#2D1A12] transition-all">SHOP NOW</button>
               </div>
               <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                {/* --- MASSIVE HERO IMAGE --- */}
                 <div className="w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 group">
                   <img 
                     src="/assets/hero.png" 
@@ -296,7 +286,7 @@ export default function Storefront() {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
               <div className="space-y-8">
                   <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI NAMKEENS</h4>
-                  <p className="text-sm opacity-60 italic">Authentic snacks </p>
+                  <p className="text-sm opacity-60 italic">Authentic snacks since 1994.</p>
               </div>
               <div className="space-y-4 text-[10px] font-black uppercase opacity-50">
                   <h5 className="text-lg text-white">Contact</h5>
