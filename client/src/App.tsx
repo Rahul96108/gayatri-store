@@ -81,7 +81,6 @@ const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
 const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     async function fetchAll() {
@@ -92,14 +91,10 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
     fetchAll();
   }, []);
 
-  const filtered = allProducts.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
   return (
     <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
-      <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-[60] bg-[#F5F1E6]/80 backdrop-blur-md">
-        <div className="flex items-center gap-3 cursor-pointer" onClick={onBack}>
-           <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
-        </div>
+      <nav className="fixed top-0 left-0 w-full py6 px-8 md:px-16 flex justify-between items-center z-[60] bg-[#F5F1E6]/80 backdrop-blur-md">
+        <span onClick={onBack} className="font-black text-xl tracking-tighter text-[#8B2312] uppercase cursor-pointer">GAYATRI</span>
         <button onClick={openCart} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
             <ShoppingCart className="w-5 h-5" />
             <span className="text-[10px] font-bold">{cartCount}</span>
@@ -107,14 +102,16 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
       </nav>
       <div className="max-w-7xl mx-auto">
         <h2 className="text-7xl md:text-8xl font-black italic uppercase text-[#8B2312] mb-12 tracking-tighter leading-none">The <br/> Catalog</h2>
-        <input type="text" placeholder="Search Pantry..." className="w-full md:w-96 bg-white border-2 border-[#2D1A12] p-5 rounded-2xl outline-none mb-12" onChange={(e) => setSearchTerm(e.target.value)} />
         {loading ? <div className="flex justify-center py-40"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {filtered.map((p) => (
+            {allProducts.map((p) => (
               <div key={p.id} className="bg-white border-2 border-[#2D1A12] p-6 rounded-[2.5rem] flex flex-col hover:shadow-2xl transition-all">
                 <img src={p.image} className="aspect-square w-full object-cover rounded-[2rem] mb-6 shadow-sm" alt="" />
                 <h4 className="text-2xl font-black italic uppercase text-[#8B2312] mb-2 leading-none">{p.name}</h4>
-                <div className="flex justify-between items-center mt-auto pt-4 border-t"><span className="text-lg font-bold text-[#D48C2B]">₹{p.price}</span><button onClick={() => addToCart(p)} className="bg-[#8B2312] text-white p-2 rounded-full"><Plus size={16}/></button></div>
+                <div className="flex justify-between items-center mt-auto pt-4 border-t">
+                    <span className="text-lg font-bold text-[#D48C2B]">₹{p.price}</span>
+                    <button onClick={() => addToCart(p)} className="bg-[#8B2312] text-white p-2 rounded-full"><Plus size={16}/></button>
+                </div>
               </div>
             ))}
           </div>
@@ -234,27 +231,28 @@ export default function Storefront() {
               </div>
               <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
                 {/* --- FIXED HERO IMAGE SECTION --- */}
-                {/* Added flex-shrink-0 to prevent squashing into an oval */}
-                <div className="w-72 h-72 md:w-[450px] md:h-[450px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
+                {/* Removed the dotted border div. Increased size to w-96 h-96 on mobile and w-[550px] on desktop. */}
+                <div className="w-96 h-96 md:w-[550px] md:h-[550px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
                   <img 
-                    /* Updated URL to a clear, high-quality thin yellow sev image */
-                    src="assets/hero.png" 
-                    alt="Bowl of thin yellow sev namkeen" 
+                    src="/assets/hero.png" 
+                    alt="Bowl of crunchy namkeen" 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                   />
                 </div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border-2 border-dashed border-[#8B2312]/10 rounded-full"></div>
               </div>
             </div>
           </header>
           <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left">
-            <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter">Favorites</h3>
+            <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter text-left">Favorites</h3>
             {loading ? <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                 {products.map((p) => (
                   <div key={p.id} className="border-2 border-[#2D1A12] p-8 rounded-[3.5rem] bg-white flex flex-col hover:shadow-2xl transition-all shadow-sm">
                     <img src={p.image} className="w-full h-64 object-cover rounded-[2.5rem] mb-6 shadow-sm" alt="" />
-                    <div className="flex justify-between items-start mb-4 px-1"><h4 className="text-3xl font-black italic uppercase text-[#8B2312] leading-none">{p.name}</h4><span className="text-xl font-bold text-[#D48C2B]">₹{p.price}</span></div>
+                    <div className="flex justify-between items-start mb-4 px-1">
+                        <h4 className="text-3xl font-black italic uppercase text-[#8B2312] leading-none">{p.name}</h4>
+                        <span className="text-xl font-bold text-[#D48C2B]">₹{p.price}</span>
+                    </div>
                     <button onClick={() => addToCart(p)} className="mt-auto border-2 border-[#2D1A12] py-4 rounded-full font-black italic uppercase hover:bg-[#8B2312] hover:text-white transition-all text-xs">Add to Cart</button>
                   </div>
                 ))}
@@ -265,9 +263,16 @@ export default function Storefront() {
             </div>
           </main>
           <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
-              <div className="space-y-8"><h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI</h4><p className="text-sm opacity-60 italic">Authentic snacks since 1994.</p></div>
-              <div className="space-y-4 text-[10px] font-black uppercase opacity-50"><h5 className="text-lg text-white text-left">Contact</h5><p>Bhilwara, Rajasthan</p><p>+91 9982620643</p></div>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
+              <div className="space-y-8">
+                  <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI</h4>
+                  <p className="text-sm opacity-60 italic">Authentic snacks since 1994.</p>
+              </div>
+              <div className="space-y-4 text-[10px] font-black uppercase opacity-50">
+                  <h5 className="text-lg text-white">Contact</h5>
+                  <p>Bhilwara, Rajasthan</p>
+                  <p>+91 9982620643</p>
+              </div>
             </div>
           </footer>
         </div>
