@@ -42,7 +42,7 @@ const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E6] pt-32 pb-20 px-6 text-left animate-in fade-in duration-500">
+    <div className="pt-10 pb-20 px-6 text-left animate-in fade-in duration-500">
       <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
         <div className="space-y-10">
           <button onClick={onBack} className="text-[#8B2312] font-black italic uppercase text-xs">← Back to Shop</button>
@@ -78,34 +78,14 @@ const CheckoutPage = ({ cart, cartTotal, onBack, onComplete }: any) => {
 };
 
 // --- 2. CATALOG COMPONENT ---
-const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
-  const [allProducts, setAllProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchAll() {
-      const { data } = await supabase.from('products').select('*').order('name');
-      if (data) setAllProducts(data);
-      setLoading(false);
-    }
-    fetchAll();
-  }, []);
-
+const CatalogView = ({ addToCart, loading, allProducts }: any) => {
   return (
-    <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
-<nav className="absolute top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-transparent">
-   <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
-   <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
-      <ShoppingCart className="w-5 h-5" />
-      <span className="text-[10px] font-bold">{cartCount}</span>
-   </button>
-</nav>
-      
-      <div className="max-w-7xl mx-auto relative z-20">
+    <div className="pt-10 pb-24 px-6 text-left animate-in fade-in duration-700">
+      <div className="max-w-7xl mx-auto">
         <h2 className="text-7xl md:text-8xl font-black italic uppercase text-[#8B2312] mb-12 tracking-tighter leading-none">The <br/> Catalog</h2>
         {loading ? <div className="flex justify-center py-40"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {allProducts.map((p) => (
+            {allProducts.map((p: any) => (
               <div key={p.id} className="bg-white border-2 border-[#2D1A12] p-6 rounded-[2.5rem] flex flex-col hover:shadow-2xl transition-all">
                 <img src={p.image} className="aspect-square w-full object-cover rounded-[2rem] mb-6 shadow-sm" alt="" />
                 <h4 className="text-2xl font-black italic uppercase text-[#8B2312] mb-2 leading-none">{p.name}</h4>
@@ -125,41 +105,41 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
 // --- 3. MAIN STOREFRONT LOGIC ---
 export default function Storefront() {
   const [products, setProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [view, setView] = useState<'home' | 'catalog' | 'checkout'>('home');
   const productsRef = useRef<HTMLDivElement>(null);
 
-  // --- FAVICON SYNC LOGIC ---
+  // Sync Favicon from Supabase Bucket
   useEffect(() => {
     const syncFavicon = async () => {
-      //  Get public URL from 'fevicon' bucket
       const { data } = supabase.storage.from('fevicon').getPublicUrl('fevicon.png');
-
       if (data?.publicUrl) {
-        //  Locate or create favicon link tag
         let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
         if (!link) {
           link = document.createElement('link');
           link.rel = 'icon';
           document.head.appendChild(link);
         }
-        //  Apply Supabase storage URL
         link.href = data.publicUrl;
       }
     };
     syncFavicon();
   }, []);
 
+  // Fetch Products
   useEffect(() => {
-    async function getProducts() {
+    async function fetchData() {
       try {
-        const { data } = await supabase.from('products').select('*').limit(6);
-        if (data) setProducts(data);
+        const { data: favs } = await supabase.from('products').select('*').limit(6);
+        const { data: catalog } = await supabase.from('products').select('*').order('name');
+        if (favs) setProducts(favs);
+        if (catalog) setAllProducts(catalog);
       } catch (e) { console.error(e); } finally { setLoading(false); }
     }
-    getProducts();
+    fetchData();
   }, []);
 
   const addToCart = (p: any) => {
@@ -193,7 +173,6 @@ export default function Storefront() {
     }]);
 
     if (error) console.error("Database Save Failed:", error);
-
     const msg = `*NEW ORDER ${orderId}*%0A*Customer:* ${addr.name}%0A*Items:* ${itemDetails}%0A*Total:* ₹${cartTotal}`;
     window.open(`https://wa.me/919982620643?text=${msg}`, '_blank');
     return true;
@@ -202,8 +181,21 @@ export default function Storefront() {
   const navigateToHome = () => { setIsCartOpen(false); setView('home'); window.scrollTo(0,0); };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans selection:bg-[#D48C2B]">
+    <div className="min-h-screen bg-[#F5F1E6] text-[#2D1A12] font-sans selection:bg-[#D48C2B] overflow-x-hidden">
       
+      {/* 1. GLOBAL NAVBAR: Relative position ensures it scrolls naturally */}
+      <nav className="w-full py-10 px-8 md:px-16 flex justify-between items-center bg-[#F5F1E6]">
+        <div className="flex flex-col cursor-pointer" onClick={navigateToHome}>
+          <span className="font-black text-2xl tracking-tighter text-[#8B2312] uppercase leading-none">GAYATRI</span>
+          <span className="text-[10px] font-bold text-[#D48C2B] uppercase tracking-[0.2em] ml-0.5">Namkeens</span>
+        </div>
+        <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-4 rounded-full shadow-lg flex items-center gap-3 hover:scale-105 transition-all">
+          <ShoppingCart className="w-6 h-6" />
+          <span className="font-black text-sm">{cartCount}</span>
+        </button>
+      </nav>
+
+      {/* CART OVERLAY: Stays on top fixed */}
       <div className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-2xl z-[100] transform transition-transform duration-500 border-l-4 border-[#D48C2B] ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="h-full flex flex-col p-8">
           <div className="flex justify-between items-center mb-10 text-[#8B2312] font-black italic uppercase text-3xl">
@@ -234,73 +226,76 @@ export default function Storefront() {
         </div>
       </div>
 
-      {view === 'home' && (
-        <div className="animate-in fade-in duration-700">
-          <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
-            <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-10 bg-[#F5F1E6]/90 backdrop-blur-xl">
-               <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
-               <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5" />
-                  <span className="text-[10px] font-bold">{cartCount}</span>
-               </button>
-            </nav>
-            <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12 relative z-20 mt-20">
-              <div className="lg:w-1/2 space-y-8 text-left">
-                <h2 className="text-6xl md:text-8xl lg:text-[110px] font-black italic uppercase text-[#8B2312] leading-[0.85] tracking-tighter">CRUNCH <br/> <span className="text-[#D48C2B]">BEYOND</span> <br/> WORDS.</h2>
-                <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg shadow-xl hover:bg-[#2D1A12] transition-all">SHOP NOW</button>
-              </div>
-              <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                <div className="w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 group">
-                  <img 
-                    src="/assets/hero.png" 
-                    alt="Bowl of crunchy namkeen" 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                  />
+      {/* VIEW ROUTER */}
+      <div className="relative">
+        {view === 'home' && (
+          <div className="animate-in fade-in duration-700">
+            <header className="flex flex-col px-8 md:px-16 text-left">
+              <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12 pt-10 pb-20">
+                <div className="lg:w-1/2 space-y-8">
+                  <h2 className="text-6xl md:text-8xl lg:text-[110px] font-black italic uppercase text-[#8B2312] leading-[0.85] tracking-tighter">CRUNCH <br/> <span className="text-[#D48C2B]">BEYOND</span> <br/> WORDS.</h2>
+                  <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg shadow-xl hover:bg-[#2D1A12] transition-all">SHOP NOW</button>
+                </div>
+                <div className="lg:w-1/2 flex justify-center lg:justify-end">
+                  {/* MASSIVE HERO IMAGE */}
+                  <div className="w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 group">
+                    <img src="/assets/hero.png" alt="Bowl of crunchy namkeen" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </header>
-          
-          <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left relative z-20">
-            <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter">Favorites</h3>
-            {loading ? <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                {products.map((p) => (
-                  <div key={p.id} className="border-2 border-[#2D1A12] p-8 rounded-[3.5rem] bg-white flex flex-col hover:shadow-2xl transition-all shadow-sm">
-                    <img src={p.image} className="w-full h-64 object-cover rounded-[2.5rem] mb-6 shadow-sm" alt="" />
-                    <div className="flex justify-between items-start mb-4 px-1">
-                        <h4 className="text-3xl font-black italic uppercase text-[#8B2312] leading-none">{p.name}</h4>
-                        <span className="text-xl font-bold text-[#D48C2B]">₹{p.price}</span>
+            </header>
+            
+            <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left">
+              <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter">Favorites</h3>
+              {loading ? <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                  {products.map((p) => (
+                    <div key={p.id} className="border-2 border-[#2D1A12] p-8 rounded-[3.5rem] bg-white flex flex-col hover:shadow-2xl transition-all shadow-sm">
+                      <img src={p.image} className="w-full h-64 object-cover rounded-[2.5rem] mb-6 shadow-sm" alt="" />
+                      <div className="flex justify-between items-start mb-4 px-1"><h4 className="text-3xl font-black italic uppercase text-[#8B2312] leading-none">{p.name}</h4><span className="text-xl font-bold text-[#D48C2B]">₹{p.price}</span></div>
+                      <button onClick={() => addToCart(p)} className="mt-auto border-2 border-[#2D1A12] py-4 rounded-full font-black italic uppercase hover:bg-[#8B2312] hover:text-white transition-all text-xs">Add to Cart</button>
                     </div>
-                    <button onClick={() => addToCart(p)} className="mt-auto border-2 border-[#2D1A12] py-4 rounded-full font-black italic uppercase hover:bg-[#8B2312] hover:text-white transition-all text-xs">Add to Cart</button>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              )}
+              <div className="mt-20 flex flex-col items-center border-t border-[#2D1A12]/5 pt-20">
+                <button onClick={() => setView('catalog')} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all group">View Full Catalog <ArrowRight className="group-hover:translate-x-3 transition-transform" /></button>
               </div>
-            )}
-            <div className="mt-20 flex flex-col items-center border-t border-[#2D1A12]/5 pt-20">
-              <button onClick={() => setView('catalog')} className="flex items-center gap-6 bg-[#2D1A12] text-white px-16 py-7 rounded-full font-black italic uppercase hover:bg-[#8B2312] transition-all group">View Full Catalog <ArrowRight className="group-hover:translate-x-3 transition-transform" /></button>
-            </div>
-          </main>
-          
-          <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left relative z-30">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
-              <div className="space-y-8">
-                  <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI NAMKEENS</h4>
-                  <p className="text-sm opacity-60 italic">Authentic snacks</p>
-                <p className="text-sm opacity-60 italic">FSSAI Approved - </p>
-              </div>
-              <div className="space-y-4 text-[10px] font-black uppercase opacity-50">
-                  <h5 className="text-lg text-white">Contact</h5>
-                  <p>Bhilwara, Rajasthan</p>
-                  <p>+91 9829284739</p>
-              </div>
-            </div>
-          </footer>
-        </div>
-      )}
+            </main>
+          </div>
+        )}
 
-      {view === 'catalog' && <CatalogView onBack={navigateToHome} addToCart={addToCart} cartCount={cartCount} openCart={() => setIsCartOpen(true)} />}
-      {view === 'checkout' && <CheckoutPage cart={cart} cartTotal={cartTotal} onBack={navigateToHome} onComplete={handleFinalCheckout} />}
+        {view === 'catalog' && (
+          <CatalogView 
+            allProducts={allProducts} 
+            loading={loading} 
+            addToCart={addToCart} 
+          />
+        )}
+
+        {view === 'checkout' && (
+          <CheckoutPage 
+            cart={cart} 
+            cartTotal={cartTotal} 
+            onBack={navigateToHome} 
+            onComplete={handleFinalCheckout} 
+          />
+        )}
+      </div>
+
+      <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
+          <div className="space-y-8">
+            <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI NAMKEENS</h4>
+            <p className="text-sm opacity-60 italic">Authentic snacks since 1994.</p>
+          </div>
+          <div className="space-y-4 text-[10px] font-black uppercase opacity-50">
+            <h5 className="text-lg text-white">Contact</h5>
+            <p>Bhilwara, Rajasthan</p>
+            <p>+91 9829284739</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
