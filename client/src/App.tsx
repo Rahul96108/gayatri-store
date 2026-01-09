@@ -93,7 +93,7 @@ const CatalogView = ({ onBack, addToCart, cartCount, openCart }: any) => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E6] pt-40 pb-24 px-6 text-left animate-in fade-in duration-700">
-      <nav className="fixed top-0 left-0 w-full py6 px-8 md:px-16 flex justify-between items-center z-[60] bg-[#F5F1E6]/80 backdrop-blur-md">
+      <nav className="fixed top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-[60] bg-[#F5F1E6]/80 backdrop-blur-md">
         <span onClick={onBack} className="font-black text-xl tracking-tighter text-[#8B2312] uppercase cursor-pointer">GAYATRI</span>
         <button onClick={openCart} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2">
             <ShoppingCart className="w-5 h-5" />
@@ -213,7 +213,6 @@ export default function Storefront() {
         </div>
       </div>
 
-      {/* VIEW ROUTER */}
       {view === 'home' && (
         <div className="animate-in fade-in duration-700">
           <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
@@ -231,8 +230,9 @@ export default function Storefront() {
               </div>
               <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
                 {/* --- FIXED HERO IMAGE SECTION --- */}
-                {/* Removed the dotted border div. Increased size to w-96 h-96 on mobile and w-[550px] on desktop. */}
-                <div className="w-96 h-96 md:w-[550px] md:h-[550px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
+                {/* 1. Dotted outline div is definitively REMOVED. */}
+                {/* 2. Size increased massively to w-[400px] on mobile and w-[700px] on desktop. */}
+                <div className="w-[400px] h-[400px] lg:w-[700px] lg:h-[700px] flex-shrink-0 rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
                   <img 
                     src="/assets/hero.png" 
                     alt="Bowl of crunchy namkeen" 
