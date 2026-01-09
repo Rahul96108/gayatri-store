@@ -132,7 +132,33 @@ export default function Storefront() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [view, setView] = useState<'home' | 'catalog' | 'checkout'>('home');
   const productsRef = useRef<HTMLDivElement>(null);
+  
+  
+  useEffect(() => {
+  const syncFavicon = async () => {
+    // 1. Get the public URL of your icon from the 'fevicon' bucket
+    const { data } = supabase
+      .storage
+      .from('fevicon')
+      .getPublicUrl('fevicon.png'); // Replace with your actual file name
 
+    if (data?.publicUrl) {
+      // 2. Find the existing favicon tag or create a new one
+      let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
+       if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.head.appendChild(link);
+      }
+      // 3. Update the href to the Supabase URL
+      link.href = data.publicUrl;
+    }
+  };
+
+  syncFavicon();
+}, []);
+
+  
   useEffect(() => {
     async function getProducts() {
       try {
@@ -269,13 +295,13 @@ export default function Storefront() {
           <footer className="bg-[#2D1A12] text-[#F5F1E6] pt-24 pb-12 px-8 md:px-16 border-t-[10px] border-[#D48C2B] text-left relative z-30">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
               <div className="space-y-8">
-                  <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI</h4>
-                  <p className="text-sm opacity-60 italic">Authentic snacks since 1994.</p>
+                  <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI NAMKEENS</h4>
+                  <p className="text-sm opacity-60 italic">Authentic snacks </p>
               </div>
               <div className="space-y-4 text-[10px] font-black uppercase opacity-50">
                   <h5 className="text-lg text-white">Contact</h5>
                   <p>Bhilwara, Rajasthan</p>
-                  <p>+91 9982620643</p>
+                  <p>+91 9829284739</p>
               </div>
             </div>
           </footer>
