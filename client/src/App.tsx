@@ -215,28 +215,55 @@ export default function Storefront() {
       {view === 'home' && (
         <div className="animate-in fade-in duration-700">
           <header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
+            {/*    nav bar  */}
             <nav className="absolute top-0 left-0 w-full py-6 px-8 md:px-16 flex justify-between items-center z-20">
                <span className="font-black text-xl tracking-tighter text-[#8B2312] uppercase">GAYATRI</span>
                <button onClick={() => setIsCartOpen(true)} className="bg-[#8B2312] text-white p-3 rounded-full shadow-lg flex items-center gap-2"><ShoppingCart className="w-5 h-5" /><span className="text-[10px] font-bold">{cartCount}</span></button>
             </nav>
-            <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12">
+
+            {/* ... inside Storefront component, view === 'home' ... */}
+
+<header className="relative min-h-[85vh] flex flex-col pt-24 px-8 md:px-16 overflow-hidden text-left">
+  {/* ... nav code remains the same ... */}
+
+  <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12 mt-10">
+    <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+      <h2 className="text-6xl md:text-8xl lg:text-[110px] font-black italic uppercase text-[#8B2312] leading-[0.85] tracking-tighter">
+        CRUNCH <br/> <span className="text-[#D48C2B]">BEYOND</span> <br/> WORDS.
+      </h2>
+      <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg shadow-xl hover:bg-[#2D1A12] transition-all">
+        SHOP THE COLLECTION
+      </button>
+    </div>
+
+    <div className="lg:w-1/2 flex justify-center lg:justify-end relative">
+      {/* --- UPDATED HERO IMAGE SECTION --- */}
+      <div className="w-72 h-72 md:w-[450px] md:h-[450px] rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 z-10 group">
+        <img
+          /* Make sure the image file is saved at public/assets/hero-sev.png */
+          src="/assets/hero-sev.png"
+          alt="Bowl of crunchy yellow sev namkeen with onion and chili topping"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+        />
+      </div>
+      {/* Decorative background element */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border-2 border-dashed border-[#8B2312]/10 rounded-full animate-spin-slow"></div>
+    </div>
+  </div>
+</header>
+            {/* <div className="flex flex-col lg:flex-row items-center justify-between flex-grow gap-12">
               <div className="lg:w-1/2 space-y-8 text-left">
                 <h2 className="text-6xl md:text-8xl lg:text-[110px] font-black italic uppercase text-[#8B2312] leading-[0.85] tracking-tighter">CRUNCH <br/> <span className="text-[#D48C2B]">BEYOND</span> <br/> WORDS.</h2>
                 <button onClick={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} className="bg-[#8B2312] text-white px-10 py-5 rounded-full font-black italic uppercase text-lg">SHOP THE COLLECTION</button>
-              </div>
-              {/* <div className="lg:w-1/2 flex justify-end">
-                <div className="w-[450px] h-[450px] rounded-full border-[15px] border-white shadow-2xl overflow-hidden"><img src="https://images.unsplash.com/photo-1601050638917-3f04807b93dc?q=80&w=800&auto=format&fit=crop" alt="" className="w-full h-full object-cover" /></div>
-              </div>
-            </div> */}
-              
-          <div className="lg:w-1/2 flex justify-center lg:justify-end">
+              </div> */}
+              {/* <div className="lg:w-1/2 flex justify-center lg:justify-end">
           <div className="w-72 h-72 md:w-[450px] md:h-[450px] rounded-full border-[15px] border-white shadow-2xl overflow-hidden bg-[#D48C2B]/10 group z-10">
           <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=800&auto=format&fit=crop" 
               alt="Golden bowl of crunchy namkeen mix" 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
               </div>
             </div>
-          </header>
+          </header> */}
           <main ref={productsRef} className="max-w-7xl mx-auto px-6 py-24 text-left">
             <h3 className="text-5xl font-black italic uppercase text-[#8B2312] mb-16 tracking-tighter text-left">Favorites</h3>
             {loading ? <div className="flex justify-center py-20"><Loader2 className="animate-spin text-[#8B2312] w-12 h-12" /></div> : (
