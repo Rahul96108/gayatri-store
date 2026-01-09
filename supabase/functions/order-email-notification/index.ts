@@ -13,7 +13,7 @@ serve(async (req) => {
     },
     body: JSON.stringify({
       from: "Gayatri Store <onboarding@resend.dev>",
-      to: ["your-email@gmail.com"], // Your actual email
+      to: ["mehuronnie@gmail.com"], // Your actual email
       subject: `New Order Received: ${record.order_id}`,
       html: `
         <h1>New Order Alert!</h1>
