@@ -287,7 +287,7 @@ export default function Storefront() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 text-left">
           <div className="space-y-8">
             <h4 className="text-3xl font-black italic uppercase text-[#D48C2B]">GAYATRI NAMKEENS</h4>
-            <p className="text-sm opacity-60 italic">Authentic snacks since 1994.</p>
+            <p className="text-sm opacity-60 italic">Authentic snacks</p>
           </div>
           <div className="space-y-4 text-[10px] font-black uppercase opacity-50">
             <h5 className="text-lg text-white">Contact</h5>
