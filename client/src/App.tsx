@@ -11,7 +11,7 @@ const ComingSoon = () => {
         <h1 className="text-4xl md:text-6xl font-bold text-orange-800 tracking-tight">
           GAYATRI <span className="text-orange-600">NAMKEEN</span>
         </h1>
-        <p className="text-orange-700 font-medium mt-2 text-lg">Taste of Tradition, coming to your doorstep.</p>
+        <p className="text-orange-700 font-medium mt-2 text-lg">Taste of Tradition, coming to you</p>
       </header>
 
       {/* Main Content Card */}
@@ -36,11 +36,7 @@ const ComingSoon = () => {
           </div>
           <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
             <span className="text-2xl mb-2 block">📦</span>
-            <p className="text-sm font-semibold text-gray-700">Pan-India Delivery</p>
-          </div>
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-            <span className="text-2xl mb-2 block">💳</span>
-            <p className="text-sm font-semibold text-gray-700">Secure Payments</p>
+            <p className="text-sm font-semibold text-gray-700">Online Order</p>
           </div>
         </div>
 
